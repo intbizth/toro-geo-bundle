@@ -10,7 +10,7 @@
                         remote: {
                             value: 'id',
                             text: 'geo_name',
-                            query: '_geo_query_',
+                            query: 'grid_criteria_query',
                             min_query: 3,
                             url: path('toro_admin_geo_name_filter'),
                         }
@@ -24,15 +24,3 @@
         {{ form_row(form.translations) }}
     </div>
 </div>
-<script>
-    window['_geo_query_'] = function (remote, query) {
-        remote['data'] = {
-            criteria: {
-                search: {
-                    type: 'contains',
-                    value: query
-                }
-            }
-        };
-    };
-</script>
