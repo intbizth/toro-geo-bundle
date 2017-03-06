@@ -1,0 +1,15 @@
+toro_admin_country:
+    resource: |
+        alias: toro.country
+        section: admin
+        templates: ToroAdminBundle:Crud
+        except: ['show', 'delete']
+        redirect: update
+        grid: toro_admin_country
+        vars:
+            all:
+                templates:
+                    form: "@ToroGeo/Admin/Country/_form.html.twig"
+            index:
+                icon: flag
+    type: sylius.resource

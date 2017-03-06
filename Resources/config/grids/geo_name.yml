@@ -1,0 +1,54 @@
+sylius_grid:
+    grids:
+        toro_admin_geo_name:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%toro.model.geo_name.class%"
+                    repository:
+                        method: createListQueryBuilder
+                        arguments: [ "%locale%" ]
+            filters:
+                name:
+                    type: string
+                    label: Name
+                    options:
+                        default: true
+                        fields:
+                            - postcode
+                            - translation.name
+                            - translation.abbreviation
+                search:
+                    type: string
+                    label: GeoName
+                    options:
+                        fields:
+                            - translation.geoName
+            fields:
+                country:
+                    type: twig
+                    label: Country
+                    path: country
+                    options:
+                        template: "@ToroGeo/Admin/GeoName/Field/country.html.twig"
+                name:
+                    type: twig
+                    label: Name
+                    path: .
+                    options:
+                        template: "@ToroGeo/Admin/GeoName/Field/name.html.twig"
+                abbreviation:
+                    type: string
+                    label: Abbreviation
+                postcode:
+                    type: string
+                    label: Postcode
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

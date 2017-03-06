@@ -1,0 +1,23 @@
+{% form_theme form "@ToroGeo/Admin/Zone/_theme.html.twig" %}
+
+{{ form_errors(form) }}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel">
+            <div class="panel-body">
+                {{ form_row(form.type) }}
+                {{ form_row(form.code) }}
+                {{ form_row(form.translations) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="panel">
+            <div class="panel-title">{{ 'toro.ui.members'|trans }}</div>
+            <div class="panel-body">
+                {{ form_row(form.members, {'label': false}) }}
+            </div>
+        </div>
+    </div>
+</div>

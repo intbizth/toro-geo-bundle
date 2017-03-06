@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <mapped-superclass name="Toro\Bundle\GeoBundle\Model\Zone" table="toro_geo_zone">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="code" column="code" type="string" unique="true"/>
+        <field name="type" column="type" type="string" length="8"/>
+        <field name="scope" column="scope" type="string" nullable="true"/>
+
+        <one-to-many field="members" target-entity="Toro\Bundle\GeoBundle\Model\ZoneMemberInterface"
+                     mapped-by="belongsTo" fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+    </mapped-superclass>
+
+</doctrine-mapping>

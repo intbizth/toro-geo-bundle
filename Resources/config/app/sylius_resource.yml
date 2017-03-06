@@ -1,0 +1,46 @@
+sylius_resource:
+    resources:
+        toro.country:
+            driver: doctrine/orm
+            classes:
+                model: Toro\Bundle\GeoBundle\Model\Country
+                interface: Toro\Bundle\GeoBundle\Model\CountryInterface
+                form: Toro\Bundle\GeoBundle\Form\Type\CountryType
+
+        toro.zone:
+            driver: doctrine/orm
+            classes:
+                model: Toro\Bundle\GeoBundle\Model\Zone
+                interface: Toro\Bundle\GeoBundle\Model\ZoneInterface
+                form: Toro\Bundle\GeoBundle\Form\Type\ZoneType
+                factory: Sylius\Component\Resource\Factory\TranslatableFactory
+            translation:
+                classes:
+                    model: Toro\Bundle\GeoBundle\Model\ZoneTranslation
+                    interface: Toro\Bundle\GeoBundle\Model\ZoneTranslationInterface
+                    form: Toro\Bundle\GeoBundle\Form\Type\ZoneTranslationType
+                    factory: Sylius\Component\Resource\Factory\Factory
+
+        toro.zone_member:
+            driver: doctrine/orm
+            classes:
+                model: Toro\Bundle\GeoBundle\Model\ZoneMember
+                interface: Toro\Bundle\GeoBundle\Model\ZoneMemberInterface
+                form: Toro\Bundle\GeoBundle\Form\Type\ZoneMemberType
+                factory: Sylius\Component\Resource\Factory\Factory
+
+        toro.geo_name:
+            driver: doctrine/orm
+            classes:
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                model: Toro\Bundle\GeoBundle\Model\GeoName
+                interface: Toro\Bundle\GeoBundle\Model\GeoNameInterface
+                form: Toro\Bundle\GeoBundle\Form\Type\GeoNameType
+                factory: Sylius\Component\Resource\Factory\TranslatableFactory
+                repository: Toro\Bundle\GeoBundle\Doctrine\ORM\GeoNameRepository
+            translation:
+                classes:
+                    model: Toro\Bundle\GeoBundle\Model\GeoNameTranslation
+                    interface: Toro\Bundle\GeoBundle\Model\GeoNameTranslationInterface
+                    form: Toro\Bundle\GeoBundle\Form\Type\GeoNameTranslationType
+                    factory: Sylius\Component\Resource\Factory\Factory

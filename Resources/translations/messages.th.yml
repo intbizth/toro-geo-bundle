@@ -1,0 +1,22 @@
+toro:
+    form:
+        geo_name:
+            parent: "Parent"
+            name: "Name"
+            abbreviation: "Abbreviation"
+            type: "Type"
+            postcode: "Postcode"
+            types:
+                province: Province
+                district: District
+                sub_district: Sub District
+        country:
+            enabled: "Enabled?"
+        zone:
+            name: Name
+            type: Type
+            add_member: Add Member
+            types:
+                country: Country
+                province: Province
+                zone: Zone

@@ -1,0 +1,5 @@
+{% if data.children|length %}
+    <strong>{{ '—'|repeat(data.level - 1) }} {{ data.name }}</strong>
+{% else %}
+    {{ '—'|repeat(data.level - 1) }} {{ data.name }}
+{% endif %}

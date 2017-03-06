@@ -1,0 +1,31 @@
+toro_admin_geo_name:
+    resource: |
+        alias: toro.geo_name
+        section: admin
+        templates: ToroAdminBundle:Crud
+        except: ['show']
+        redirect: update
+        grid: toro_admin_geo_name
+        vars:
+            all:
+                templates:
+                    form: "@ToroGeo/Admin/GeoName/_form.html.twig"
+            index:
+                icon: flag
+    type: sylius.resource
+
+
+toro_admin_geo_name_filter:
+    path: /geo-names/filter
+    methods: [GET]
+    defaults:
+        _format: json
+        _controller: toro.controller.geo_name:indexAction
+        _sylius:
+            grid: toro_admin_geo_name
+            serialization_version: 1
+            serialization_groups: [Default]
+        criteria:
+            name:
+                type: contains
+                value: $keyword

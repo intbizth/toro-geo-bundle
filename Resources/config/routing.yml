@@ -1,0 +1,8 @@
+toro_admin_geo_zone:
+    resource: "@ToroGeoBundle/Resources/config/routing/zone.yml"
+
+toro_admin_geo_country:
+    resource: "@ToroGeoBundle/Resources/config/routing/country.yml"
+
+toro_admin_geo_name:
+    resource: "@ToroGeoBundle/Resources/config/routing/geo_name.yml"

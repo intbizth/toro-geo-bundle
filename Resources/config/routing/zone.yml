@@ -1,0 +1,37 @@
+toro_admin_zone:
+    resource: |
+        alias: toro.zone
+        section: admin
+        templates: ToroAdminBundle:Crud
+        except: ['show', 'create']
+        redirect: update
+        grid: toro_admin_zone
+        vars:
+            all:
+                templates:
+                    form: "@ToroGeo/Admin/Zone/_form.html.twig"
+            index:
+                icon: world
+    type: sylius.resource
+
+toro_admin_zone_create:
+    path: /zones/{type}/new
+    methods: [GET, POST]
+    defaults:
+        _controller: toro.controller.zone:createAction
+        _sylius:
+            section: admin
+            factory:
+                method: createTyped
+                arguments:
+                    type: $type
+            template: "@ToroAdmin/Crud/create.html.twig"
+            redirect: toro_admin_zone_update
+            vars:
+                templates:
+                    form: "@ToroGeo/Admin/Zone/_form.html.twig"
+                route:
+                    parameters:
+                        type: $type
+    requirements:
+        type: country|province|zone

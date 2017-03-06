@@ -1,0 +1,38 @@
+{{ form_errors(form) }}
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel">
+            <div class="panel-body">
+                {{ form_row(form.type) }}
+                {{ form_row(form.parent, { attr: {
+                    'data-chooser': {
+                        remote: {
+                            value: 'id',
+                            text: 'geo_name',
+                            query: '_geo_query_',
+                            min_query: 3,
+                            url: path('toro_admin_geo_name_filter'),
+                        }
+                    }|json_encode
+                }}) }}
+                {{ form_row(form.postcode) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        {{ form_row(form.translations) }}
+    </div>
+</div>
+<script>
+    window['_geo_query_'] = function (remote, query) {
+        remote['data'] = {
+            criteria: {
+                search: {
+                    type: 'contains',
+                    value: query
+                }
+            }
+        };
+    };
+</script>

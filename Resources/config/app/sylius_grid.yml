@@ -1,0 +1,4 @@
+imports:
+    - { resource: "@ToroGeoBundle/Resources/config/grids/zone.yml" }
+    - { resource: "@ToroGeoBundle/Resources/config/grids/country.yml" }
+    - { resource: "@ToroGeoBundle/Resources/config/grids/geo_name.yml" }

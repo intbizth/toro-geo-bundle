@@ -1,0 +1,2 @@
+{% set code = data.code|split('_')[0]|lower %}
+<i class="flag-icon flag-icon-{{ code }}"></i> {{ data.code|country_name }}

@@ -1,0 +1,50 @@
+Toro\Bundle\GeoBundle\Model\GeoName:
+    exclusion_policy: ALL
+    xml_root_name: geo_name
+    properties:
+        id:
+            expose: true
+            type: integer
+            xml_attribute: true
+            groups: [Default, Detailed]
+        code:
+            expose: true
+            type: string
+            groups: [Default, Detailed]
+        children:
+            expose: true
+            type: array
+            groups: [Detailed]
+            max_depth: 2
+        root:
+            expose: true
+            max_depth: 2
+            groups: [Detailed]
+        parent:
+            expose: true
+            max_depth: 2
+            groups: [Detailed]
+        left:
+            expose: true
+            type: integer
+            groups: [Detailed]
+        right:
+            expose: true
+            type: integer
+            groups: [Detailed]
+        level:
+            expose: true
+            type: integer
+            groups: [Detailed]
+    virtual_properties:
+        getName:
+            serialized_name: name
+        getGeoName:
+            serialized_name: geo_name
+#    relations:
+#        -   rel: self
+#            href:
+#                route: sylius_api_taxon_show
+#                parameters:
+#                    code: expr(object.getCode())
+#                    version: 1

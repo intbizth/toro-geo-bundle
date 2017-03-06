@@ -1,0 +1,64 @@
+sylius_grid:
+    grids:
+        toro_admin_zone:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%toro.model.zone.class%"
+            fields:
+                code:
+                    type: string
+                    label: Code
+                name:
+                    type: twig
+                    label: Name
+                    path: .
+                    options:
+                        template: "@ToroGeo/Admin/Zone/Field/name.html.twig"
+                type:
+                    type: twig
+                    label: Type
+                    options:
+                        template: "@ToroAdmin/Grid/Field/label.html.twig"
+            filters:
+                name:
+                    type: string
+                    label: Name
+                code:
+                    type: string
+                    label: Code
+            actions:
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
+                main:
+                    create:
+                        type: links
+                        label: toro.ui.create
+                        options:
+                            class: primary
+                            icon: "fa fa-plus"
+                            header:
+                                icon: cube
+                                label: Type
+                            links:
+                                country:
+                                    label: "Zone consisting of countries"
+                                    icon: "fa fa-plus"
+                                    route: toro_admin_zone_create
+                                    parameters:
+                                        type: country
+                                province:
+                                    label: "Zone consisting of provinces"
+                                    icon: "fa fa-plus"
+                                    route: toro_admin_zone_create
+                                    parameters:
+                                        type: province
+                                zone:
+                                    label: "Zone consisting of other zones"
+                                    icon: "fa fa-plus"
+                                    route: toro_admin_zone_create
+                                    parameters:
+                                        type: zone

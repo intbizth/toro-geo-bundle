@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <mapped-superclass name="Toro\Bundle\GeoBundle\Model\ZoneMember" table="toro_geo_zone_member">
+        <unique-constraints>
+            <unique-constraint columns="belongs_to,code"/>
+        </unique-constraints>
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="code" column="code" type="string" />
+
+        <many-to-one field="belongsTo" target-entity="Toro\Bundle\GeoBundle\Model\ZoneInterface" inversed-by="members">
+            <join-column name="belongs_to" referenced-column-name="id" />
+        </many-to-one>
+    </mapped-superclass>
+
+</doctrine-mapping>

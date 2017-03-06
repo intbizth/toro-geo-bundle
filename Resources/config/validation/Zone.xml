@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+    <class name="Toro\Bundle\GeoBundle\Model\Zone">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">code</option>
+            <option name="message">toro.zone.code.unique</option>
+            <option name="groups">toro</option>
+        </constraint>
+        <property name="code">
+            <constraint name="NotBlank">
+                <option name="message">toro.zone.code.not_blank</option>
+                <option name="groups">toro</option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="message">toro.zone.code.regex</option>
+                <option name="pattern">/^[\w-]*$/</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+        <property name="scope">
+            <constraint name="NotBlank">
+                <option name="message">toro.zone.scope.not_blank</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+        <property name="members">
+            <constraint name="Valid" />
+            <constraint name="Count">
+                <option name="min">1</option>
+                <option name="minMessage">toro.zone.members.min_count</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

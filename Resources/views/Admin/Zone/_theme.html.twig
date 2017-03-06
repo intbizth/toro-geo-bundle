@@ -1,0 +1,23 @@
+{% extends "@ToroAdmin/Form/theme.html.twig" %}
+
+{% block collection_item_widget %}
+    {% spaceless %}
+        {% set form = child %}
+        <div data-form-collection="item" data-form-collection-index="{{ index }}" class="collection-item">
+            <div class="collection-box{% if form|length == 1 %} unique-field{% endif %}">
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <td style="padding: 4px">{{ form_widget(form.code) }}</td>
+                        <td width="36">
+                            <a href="#" data-form-collection="delete" class="btn btn-sm btn-danger">
+                                <i class="fa fa-trash-o collection-button-remove"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}

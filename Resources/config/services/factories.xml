@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="toro.custom_factory.zone" class="Toro\Bundle\GeoBundle\Factory\ZoneFactory" decorates="toro.factory.zone" decoration-priority="256" public="false">
+            <argument type="service" id="toro.custom_factory.zone.inner" />
+            <argument type="service" id="toro.factory.zone_member" />
+        </service>
+    </services>
+</container>

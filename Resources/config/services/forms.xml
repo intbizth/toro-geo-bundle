@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="toro.form.type.address.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.country.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.geo_name.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.geo_name_translation.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.zone.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.zone_translation.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+        <parameter key="toro.form.type.zone_member.validation_groups" type="collection">
+            <parameter>toro</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="toro.form.type.country" class="Toro\Bundle\GeoBundle\Form\Type\CountryType">
+            <argument>%toro.model.country.class%</argument>
+            <argument>%toro.form.type.country.validation_groups%</argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.country_choice" class="Toro\Bundle\GeoBundle\Form\Type\CountryChoiceType">
+            <argument type="service" id="toro.repository.country" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.country_code_choice" class="Toro\Bundle\GeoBundle\Form\Type\CountryCodeChoiceType">
+            <argument type="service" id="toro.repository.country" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.geo_name" class="Toro\Bundle\GeoBundle\Form\Type\GeoNameType">
+            <argument>%toro.model.geo_name.class%</argument>
+            <argument>%toro.form.type.geo_name.validation_groups%</argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.geo_name_translation" class="Toro\Bundle\GeoBundle\Form\Type\GeoNameTranslationType">
+            <argument>%toro.model.geo_name_translation.class%</argument>
+            <argument>%toro.form.type.geo_name_translation.validation_groups%</argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.geo_name_choice" class="Toro\Bundle\GeoBundle\Form\Type\GeoNameChoiceType">
+            <argument type="service" id="toro.repository.geo_name" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.geo_name_code_choice" class="Toro\Bundle\GeoBundle\Form\Type\GeoNameCodeChoiceType">
+            <argument type="service" id="toro.repository.geo_name" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.zone" class="Toro\Bundle\GeoBundle\Form\Type\ZoneType">
+            <argument>%toro.model.zone.class%</argument>
+            <argument>%toro.form.type.zone.validation_groups%</argument>
+            <argument>%toro.scope.zone%</argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.zone_translation" class="Toro\Bundle\GeoBundle\Form\Type\ZoneTranslationType">
+            <argument>%toro.model.zone_translation.class%</argument>
+            <argument>%toro.form.type.zone_translation.validation_groups%</argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.zone_choice" class="Toro\Bundle\GeoBundle\Form\Type\ZoneChoiceType">
+            <argument type="service" id="toro.repository.zone" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.zone_code_choice" class="Toro\Bundle\GeoBundle\Form\Type\ZoneCodeChoiceType">
+            <argument type="service" id="toro.repository.zone" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.zone_member" class="Toro\Bundle\GeoBundle\Form\Type\ZoneMemberType">
+            <argument>%toro.model.zone_member.class%</argument>
+            <argument>%toro.form.type.zone_member.validation_groups%</argument>
+            <tag name="form.type" />
+        </service>
+    </services>
+</container>
