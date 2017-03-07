@@ -394,6 +394,10 @@ class GeoName implements GeoNameInterface
      */
     private static function __getNames(GeoNameInterface $geoName, array &$names)
     {
+        if ($geoName->isRoot()) {
+            return;
+        }
+
         $names[] = $geoName->getName();
 
         if ($geoName->getParent()) {
