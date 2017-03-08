@@ -25,7 +25,3 @@ toro_admin_geo_name_filter:
             grid: toro_admin_geo_name
             serialization_version: 1
             serialization_groups: [Default]
-        criteria:
-            name:
-                type: contains
-                value: $keyword

@@ -18,7 +18,7 @@ sylius_grid:
                             - postcode
                             - translation.name
                             - translation.abbreviation
-                search:
+                keyword:
                     type: string
                     label: GeoName
                     options:
