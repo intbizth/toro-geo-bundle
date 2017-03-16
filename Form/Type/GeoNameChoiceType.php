@@ -3,11 +3,9 @@
 namespace Toro\Bundle\GeoBundle\Form\Type;
 
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
@@ -27,16 +25,6 @@ final class GeoNameChoiceType extends AbstractType
     public function __construct(GeoNameRepositoryInterface $geoNameRepository)
     {
         $this->geoNameRepository = $geoNameRepository;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        if ($options['multiple']) {
-            $builder->addModelTransformer(new CollectionToArrayTransformer());
-        }
     }
 
     /**
