@@ -83,6 +83,14 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
     /**
      * {@inheritdoc}
      */
+    public function createListQueryBuilder()
+    {
+        return $this->createQueryBuilder('o')->leftJoin('o.translations', 'translation');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createFilterQueryBuilder($locale, $rootCode = null)
     {
         $queryBuilder = $this->createQueryBuilder('o');
