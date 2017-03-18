@@ -83,9 +83,12 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function createListQueryBuilder()
+    public function createListQueryBuilder($locale)
     {
-        return $this->createQueryBuilder('o')->leftJoin('o.translations', 'translation');
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->setParameter('locale', $locale)
+        ;
     }
 
     /**
@@ -111,6 +114,6 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
             ->andWhere($queryBuilder->expr()->between('o.left', 'parent.left', 'parent.right'))
             ->setParameter('locale', $locale)
             ->addOrderBy('o.left')
-            ;
+        ;
     }
 }
