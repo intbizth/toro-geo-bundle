@@ -6,7 +6,7 @@ sylius_grid:
                 options:
                     class: "%toro.model.geo_name.class%"
                     repository:
-                        method: createListQueryBuilder
+                        method: createFilterQueryBuilder
                         arguments: [ "%locale%" ]
             filters:
                 name:
