@@ -133,4 +133,9 @@ interface GeoNameInterface extends CodeAwareInterface, GeoNameTranslationInterfa
      * @param int $level
      */
     public function setLevel($level);
+
+    /**
+     * @return string
+     */
+    public function getAddressName();
 }

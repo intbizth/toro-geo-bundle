@@ -436,4 +436,20 @@ class GeoName implements GeoNameInterface
     {
         $this->getTranslation()->setGeoName($geoName);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAddressName()
+    {
+        $names = array_map('trim', array_reverse(explode(', ', $this->getGeoName())));
+        $postcode = null;
+
+        if (is_numeric($names[0])) {
+            $postcode = array_shift($names);
+            array_push($names, $postcode);
+        }
+
+        return implode(', ', $names);
+    }
 }
