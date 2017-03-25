@@ -16,5 +16,8 @@
         <service id="toro.twig.geo_str_repeat" class="Toro\Bundle\GeoBundle\Twig\StringRepeatExtension">
             <tag name="twig.extension"/>
         </service>
+        <service id="toro.grid_filter.geo_tree" class="Toro\Bundle\GeoBundle\Grid\Filter\GeoTreeFilter">
+            <tag name="sylius.grid_filter" type="geo_tree" form-type="Sylius\Bundle\GridBundle\Form\Type\Filter\StringFilterType" />
+        </service>
     </services>
 </container>
