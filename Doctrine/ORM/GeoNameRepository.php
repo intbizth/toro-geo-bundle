@@ -119,6 +119,22 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
         ;
     }
 
+    public function findProvinces()
+    {
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation')
+            ->where('o.type = :type')
+            ->setParameter('type', GeoNameInterface::TYPE_PROVINCE)
+        ;
+
+        return $queryBuilder
+            ->addOrderBy('translation.name')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /**
      * @param $id
      * @return null|object|GeoNameInterface
