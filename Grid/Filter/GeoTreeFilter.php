@@ -21,10 +21,16 @@ class GeoTreeFilter implements FilterInterface
      */
     private $stringFilter;
 
-    public function __construct(RepositoryInterface $repository, FilterInterface $stringFilter)
+    /**
+     * @var FilterInterface
+     */
+    private $multiStringFilter;
+
+    public function __construct(RepositoryInterface $repository, FilterInterface $stringFilter, FilterInterface $multiStringFilter = null)
     {
         $this->repository = $repository;
         $this->stringFilter = $stringFilter;
+        $this->multiStringFilter = $multiStringFilter;
     }
 
     /**
@@ -38,9 +44,11 @@ class GeoTreeFilter implements FilterInterface
             }
 
             if (is_string($data)) {
-                return $this->stringFilter->apply($dataSource, $name, $data, array_replace_recursive([
-                    'fields' => [$options['trans']]
-                ], $options));
+                return ($this->multiStringFilter ?: $this->stringFilter)
+                    ->apply($dataSource, $name, ['value' => $data], array_replace_recursive([
+                        'fields' => [$options['trans']]
+                    ], $options))
+                ;
             }
 
             if (!$data instanceof GeoNameInterface) {

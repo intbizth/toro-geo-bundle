@@ -19,6 +19,7 @@
         <service id="toro.grid_filter.geo_tree" class="Toro\Bundle\GeoBundle\Grid\Filter\GeoTreeFilter">
             <argument type="service" id="toro.repository.geo_name"/>
             <argument type="service" id="sylius.grid_filter.string"/>
+            <argument type="service" id="toro.grid_filter.multi_string"/>
             <tag name="sylius.grid_filter" type="geo_tree" form-type="Sylius\Bundle\GridBundle\Form\Type\Filter\StringFilterType" />
         </service>
     </services>
