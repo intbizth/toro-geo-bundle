@@ -39,13 +39,20 @@ class GeoTreeFilter implements FilterInterface
     public function apply(DataSourceInterface $dataSource, $name, $data, array $options)
     {
         if (!$data instanceof GeoNameInterface) {
+            $type = 'contains';
+
+            if (is_array($data)) {
+                $type = @$data['type'];
+                $data = @$data['value'];
+            }
+
             if (is_numeric($data)) {
                 $data = $this->repository->find($data);
             }
 
             if (is_string($data)) {
                 return ($this->multiStringFilter ?: $this->stringFilter)
-                    ->apply($dataSource, $name, ['value' => $data], array_replace_recursive([
+                    ->apply($dataSource, $name, ['value' => $data, 'type' => $type], array_replace_recursive([
                         'fields' => [$options['trans']]
                     ], $options))
                 ;

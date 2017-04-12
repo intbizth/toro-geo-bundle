@@ -42,4 +42,9 @@ interface GeoNameRepositoryInterface extends RepositoryInterface
      * @return QueryBuilder
      */
     public function createListQueryBuilder($locale);
+
+    /**
+     * @return GeoNameInterface[]
+     */
+    public function findProvinces();
 }

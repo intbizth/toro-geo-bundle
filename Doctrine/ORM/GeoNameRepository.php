@@ -64,7 +64,13 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
      */
     public function findNodesTreeSorted($rootCode = null)
     {
-        $queryBuilder = $this->createQueryBuilder('o');
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addOrderBy('o.root')
+            ->addOrderBy('o.left')
+
+            ->addSelect('t')
+            ->join('o.translations', 't')
+        ;
 
         if (null !== $rootCode) {
             $queryBuilder
@@ -74,12 +80,7 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
             ;
         }
 
-        return $queryBuilder
-            ->addOrderBy('o.root')
-            ->addOrderBy('o.left')
-            ->getQuery()
-            ->getResult()
-        ;
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -119,6 +120,9 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function findProvinces()
     {
         $queryBuilder = $this->createQueryBuilder('o')
