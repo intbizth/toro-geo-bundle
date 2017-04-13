@@ -38,12 +38,20 @@ class GeoTreeFilter implements FilterInterface
      */
     public function apply(DataSourceInterface $dataSource, $name, $data, array $options)
     {
+        if (empty($data)) {
+            return;
+        }
+
         if (!$data instanceof GeoNameInterface) {
             $type = 'contains';
 
             if (is_array($data)) {
                 $type = @$data['type'];
                 $data = @$data['value'];
+            }
+
+            if (empty($data)) {
+                return;
             }
 
             if (is_numeric($data)) {
