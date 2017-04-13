@@ -59,11 +59,13 @@ class GeoTreeFilter implements FilterInterface
             }
 
             if (is_string($data)) {
-                return ($this->multiStringFilter ?: $this->stringFilter)
-                    ->apply($dataSource, $name, ['value' => $data, 'type' => $type], array_replace_recursive([
-                        'fields' => [$options['trans']]
-                    ], $options))
-                ;
+                if (!$data = $this->repository->findOneByName($data)) {
+                    return ($this->multiStringFilter ?: $this->stringFilter)
+                        ->apply($dataSource, $name, ['value' => $data, 'type' => $type], array_replace_recursive([
+                            'fields' => [$options['trans']]
+                        ], $options))
+                    ;
+                }
             }
 
             if (!$data instanceof GeoNameInterface) {
