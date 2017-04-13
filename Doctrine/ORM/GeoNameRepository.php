@@ -140,6 +140,24 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function findOneByName($name)
+    {
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation')
+            ->where('translation.name = :name')
+            ->setParameter('name', $name)
+        ;
+
+        return $queryBuilder
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
      * @param $id
      * @return null|object|GeoNameInterface
      */
