@@ -1,143 +1,52 @@
 <?php
 
-namespace Toro\Bundle\GeoBundle\Model;
+namespace Toro\Bundle\GeoBundle\Repository;
 
-use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Resource\Model\CodeAwareInterface;
-use Sylius\Component\Resource\Model\TranslatableInterface;
+use Doctrine\ORM\QueryBuilder;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Toro\Bundle\GeoBundle\Model\GeoNameInterface;
 
-interface GeoNameInterface extends CodeAwareInterface, GeoNameTranslationInterface, TranslatableInterface
+interface GeoNameRepositoryInterface extends RepositoryInterface
 {
-    const TYPE_PROVINCE = 1;
-    const TYPE_DISTRICT = 2;
-    const TYPE_SUB_DISTRICT = 3;
-
     /**
-     * @return int
+     * @param string $parentCode
+     * @param string $locale
+     *
+     * @return GeoNameInterface[]
      */
-    public function getPostcode();
-
-    /**
-     * @param int $postcode
-     */
-    public function setPostcode($postcode);
-
-    /**
-     * @return int
-     */
-    public function getType();
-
-    /**
-     * @param int $type
-     */
-    public function setType($type);
-
-    /**
-     * @return CountryInterface
-     */
-    public function getCountry();
-
-    /**
-     * @param CountryInterface $country
-     */
-    public function setCountry(CountryInterface $country = null);
-
-    /**
-     * @return boolean
-     */
-    public function isProvince();
-
-    /**
-     * @return boolean
-     */
-    public function isDistrict();
-
-    /**
-     * @return boolean
-     */
-    public function isSubDistrict();
-
-    /**
-     * @return bool
-     */
-    public function isRoot();
-
-    /**
-     * @return GeoNameInterface
-     */
-    public function getRoot();
-
-    /**
-     * @return GeoNameInterface
-     */
-    public function getParent();
-
-    /**
-     * @param null|GeoNameInterface $parent
-     */
-    public function setParent(GeoNameInterface $parent = null);
+    public function findChildren($parentCode, $locale);
 
     /**
      * @return GeoNameInterface[]
      */
-    public function getParents();
+    public function findRootNodes();
 
     /**
-     * @return Collection|GeoNameInterface[]
-     */
-    public function getChildren();
-
-    /**
-     * @param GeoNameInterface $child
+     * @param string|null $rootCode
      *
-     * @return bool
+     * @return GeoNameInterface[]
      */
-    public function hasChild(GeoNameInterface $child);
+    public function findNodesTreeSorted($rootCode = null);
 
     /**
-     * @param GeoNameInterface $child
+     * @param string $name
+     * @param string $locale
+     *
+     * @return GeoNameInterface[]
      */
-    public function addChild(GeoNameInterface $child);
+    public function findByName($name, $locale);
 
     /**
-     * @param GeoNameInterface $child
+     * @param string $locale
+     *
+     * @return QueryBuilder
      */
-    public function removeChild(GeoNameInterface $child);
+    public function createListQueryBuilder($locale);
 
     /**
-     * @return int
+     * @return GeoNameInterface[]
      */
-    public function getLeft();
-
-    /**
-     * @param int $left
-     */
-    public function setLeft($left);
-
-    /**
-     * @return int
-     */
-    public function getRight();
-
-    /**
-     * @param int $right
-     */
-    public function setRight($right);
-
-    /**
-     * @return int
-     */
-    public function getLevel();
-
-    /**
-     * @param int $level
-     */
-    public function setLevel($level);
-
-    /**
-     * @return string
-     */
-    public function getAddressName();
+    public function findProvinces();
 
     /**
      * @param $name
