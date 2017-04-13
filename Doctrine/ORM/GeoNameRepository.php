@@ -3,7 +3,6 @@
 namespace Toro\Bundle\GeoBundle\Doctrine\ORM;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Toro\Bundle\GeoBundle\Model\GeoNameInterface;
 use Toro\Bundle\GeoBundle\Repository\GeoNameRepositoryInterface;
 
@@ -155,18 +154,5 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-
-    /**
-     * @param $id
-     * @return null|object|GeoNameInterface
-     */
-    public function findOr404($id)
-    {
-        if (!$geo = $this->find($id)) {
-            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $id));
-        }
-
-        return $geo;
     }
 }
