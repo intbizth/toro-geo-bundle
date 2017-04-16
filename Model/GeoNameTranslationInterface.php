@@ -37,4 +37,14 @@ interface GeoNameTranslationInterface extends ResourceInterface
      * @param string $geoName
      */
     public function setGeoName($geoName);
+
+    /**
+     * @return string
+     */
+    public function getSlug();
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug($slug);
 }

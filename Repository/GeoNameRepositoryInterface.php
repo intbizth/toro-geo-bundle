@@ -50,8 +50,17 @@ interface GeoNameRepositoryInterface extends RepositoryInterface
 
     /**
      * @param $name
+     * @param string|null $locale
      *
      * @return null|GeoNameInterface
      */
-    public function findOneByName($name);
+    public function findOneByName($name, $locale = null);
+
+    /**
+     * @param string $name
+     * @param string|null $locale
+     *
+     * @return null|GeoNameInterface
+     */
+    public function findOneBySlug($name, $locale = null);
 }

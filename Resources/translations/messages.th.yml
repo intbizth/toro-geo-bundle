@@ -4,6 +4,7 @@ toro:
             parent: "Parent"
             name: "Name"
             abbreviation: "Abbreviation"
+            slug: "Slug"
             type: "Type"
             postcode: "Postcode"
             types:

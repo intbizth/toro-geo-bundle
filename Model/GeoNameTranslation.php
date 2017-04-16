@@ -27,6 +27,11 @@ class GeoNameTranslation extends AbstractTranslation implements GeoNameTranslati
     protected $geoName;
 
     /**
+     * @var string
+     */
+    protected $slug;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -88,5 +93,21 @@ class GeoNameTranslation extends AbstractTranslation implements GeoNameTranslati
     public function setGeoName($geoName)
     {
         $this->geoName = $geoName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 }

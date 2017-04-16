@@ -22,6 +22,10 @@ final class GeoNameTranslationType extends AbstractResourceType
                 'label' => false,
                 'attr' => ['placeholder' => 'toro.form.geo_name.abbreviation',]
             ])
+            ->add('slug', TextType::class, [
+                'label' => false,
+                'attr' => ['placeholder' => 'toro.form.geo_name.slug',]
+            ])
         ;
     }
 

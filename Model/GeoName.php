@@ -419,6 +419,7 @@ class GeoName implements GeoNameInterface
         self::__getNames($this, $names);
 
         $this->setGeoName(implode(', ', array_reverse($names)));
+        $this->setSlug(implode('/', array_reverse($names)));
     }
 
     /**
@@ -451,5 +452,21 @@ class GeoName implements GeoNameInterface
         }
 
         return implode(', ', $names);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSlug()
+    {
+        return $this->getTranslation()->getSlug();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSlug($slug)
+    {
+        $this->getTranslation()->setSlug($slug);
     }
 }

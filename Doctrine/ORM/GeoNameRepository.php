@@ -141,7 +141,7 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneByName($name)
+    public function findOneByName($name, $locale = null)
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
@@ -149,6 +149,38 @@ class GeoNameRepository extends EntityRepository implements GeoNameRepositoryInt
             ->where('translation.name = :name')
             ->setParameter('name', $name)
         ;
+
+        if ($locale) {
+            $queryBuilder
+                ->andWhere('translation.locale = :locale')
+                ->setParameter('locale', $locale)
+            ;
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneBySlug($slug, $locale = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation')
+            ->where('translation.slug = :slug')
+            ->setParameter('slug', $slug)
+        ;
+
+        if ($locale) {
+            $queryBuilder
+                ->andWhere('translation.locale = :locale')
+                ->setParameter('locale', $locale)
+            ;
+        }
 
         return $queryBuilder
             ->getQuery()
