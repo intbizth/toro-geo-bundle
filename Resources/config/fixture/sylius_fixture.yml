@@ -2,9 +2,7 @@ sylius_fixtures:
     suites:
         geo:
             listeners:
-                orm_purger: ~
                 logger: ~
-
             fixtures:
                 geographical:
                     options:
