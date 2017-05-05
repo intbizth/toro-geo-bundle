@@ -277,7 +277,13 @@ class GeographicalFixture extends AbstractFixture
                 $subDistrict->setPostcode($geo->zipcode);
                 $this->geoManager->flush();
             }
+
+            if (0 === $i % 100) {
+                echo number_format(($i / count($data)) * 100) . "% ";
+            }
         }
+
+        echo "Geo import done!\r\n";
     }
 
     private function addGeoName(GeoNameInterface $root, $name, $type)
