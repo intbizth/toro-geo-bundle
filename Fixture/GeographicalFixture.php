@@ -274,7 +274,11 @@ class GeographicalFixture extends AbstractFixture
 
             if (!$subDistrict = $this->geoTranRepository->findOneBy(['slug' => sprintf('%s/%s/%s/%s', $geo->province, $geo->amphoe, $geo->district, $geo->zipcode)])) {
                 $subDistrict = $this->addGeoName($district, $geo->district, GeoNameInterface::TYPE_SUB_DISTRICT);
-                $subDistrict->setPostcode($geo->zipcode);
+
+                if ($geo->zipcode) {
+                    $subDistrict->setPostcode($geo->zipcode);
+                }
+
                 $this->geoManager->flush();
             }
 
