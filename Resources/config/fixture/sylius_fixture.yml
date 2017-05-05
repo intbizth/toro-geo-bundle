@@ -15,7 +15,8 @@ sylius_fixtures:
                                 name: "อีสาน"
                                 provinces:
                                     - "ขอนแก่น"
-                        provinces: ~
+                        provinces:
+                            TH: ~
         geo:
             listeners:
                 logger: ~

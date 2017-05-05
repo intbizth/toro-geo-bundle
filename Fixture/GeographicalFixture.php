@@ -161,12 +161,6 @@ class GeographicalFixture extends AbstractFixture
             $this->countryManager->persist($country);
 
             $countries[$countryCode] = $country;
-
-            if ('th' === strtolower($countryCode)) {
-                $this->countryManager->flush();
-                $this->createThProvinces($country);
-                return;
-            }
         }
 
         foreach ($countriesProvinces as $countryCode => $provinces) {
@@ -213,6 +207,12 @@ class GeographicalFixture extends AbstractFixture
      */
     private function loadProvincesForCountry(array $provinces, CountryInterface $country)
     {
+        if (empty($provinces) && 'th' === strtolower($country->getCode())) {
+            $this->countryManager->flush();
+            $this->createThProvinces($country);
+            return;
+        }
+
         /** @var GeoNameInterface $root */
         $root = $this->geoFactory->createNew();
         $root->setName($country->getName());
