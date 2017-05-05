@@ -28,12 +28,12 @@ class GeographicalFixture extends AbstractFixture
     /**
      * @var FactoryInterface
      */
-    private $provinceFactory;
+    private $geoFactory;
 
     /**
      * @var ObjectManager
      */
-    private $provinceManager;
+    private $geoManager;
 
     /**
      * @var ZoneFactoryInterface
@@ -48,33 +48,33 @@ class GeographicalFixture extends AbstractFixture
     /**
      * @var RepositoryInterface
      */
-    private $geoNameRepository;
+    private $geoTranRepository;
 
     /**
      * @param FactoryInterface $countryFactory
      * @param ObjectManager $countryManager
-     * @param FactoryInterface $provinceFactory
-     * @param ObjectManager $provinceManager
+     * @param FactoryInterface $geoFactory
+     * @param ObjectManager $geoManager
      * @param ZoneFactoryInterface $zoneFactory
      * @param ObjectManager $zoneManager
-     * @param RepositoryInterface $geoNameRepository
+     * @param RepositoryInterface $geoTranRepository
      */
     public function __construct(
         FactoryInterface $countryFactory,
         ObjectManager $countryManager,
-        FactoryInterface $provinceFactory,
-        ObjectManager $provinceManager,
+        FactoryInterface $geoFactory,
+        ObjectManager $geoManager,
         ZoneFactoryInterface $zoneFactory,
         ObjectManager $zoneManager,
-        RepositoryInterface $geoNameRepository
+        RepositoryInterface $geoTranRepository
     ) {
         $this->countryFactory = $countryFactory;
         $this->countryManager = $countryManager;
-        $this->provinceFactory = $provinceFactory;
-        $this->provinceManager = $provinceManager;
+        $this->geoFactory = $geoFactory;
+        $this->geoManager = $geoManager;
         $this->zoneFactory = $zoneFactory;
         $this->zoneManager = $zoneManager;
-        $this->geoNameRepository = $geoNameRepository;
+        $this->geoTranRepository = $geoTranRepository;
     }
 
     /**
@@ -82,10 +82,10 @@ class GeographicalFixture extends AbstractFixture
      */
     public function load(array $options)
     {
-        $this->loadCountriesWithProvinces($options['provinces']);
+        $this->loadCountriesWithProvinces((array) $options['provinces']);
 
         $this->countryManager->flush();
-        $this->provinceManager->flush();
+        $this->geoManager->flush();
 
         $this->loadZones($options['zones']);
 
@@ -161,6 +161,12 @@ class GeographicalFixture extends AbstractFixture
             $this->countryManager->persist($country);
 
             $countries[$countryCode] = $country;
+
+            if ('th' === strtolower($countryCode)) {
+                $this->countryManager->flush();
+                $this->createThProvinces($country);
+                return;
+            }
         }
 
         foreach ($countriesProvinces as $countryCode => $provinces) {
@@ -168,7 +174,7 @@ class GeographicalFixture extends AbstractFixture
                 continue;
             }
 
-            $this->loadProvincesForCountry($provinces, $countries[$countryCode]);
+            $this->loadProvincesForCountry((array) $provinces, $countries[$countryCode]);
         }
     }
 
@@ -208,11 +214,11 @@ class GeographicalFixture extends AbstractFixture
     private function loadProvincesForCountry(array $provinces, CountryInterface $country)
     {
         /** @var GeoNameInterface $root */
-        $root = $this->provinceFactory->createNew();
+        $root = $this->geoFactory->createNew();
         $root->setName($country->getName());
         $root->setCode($country->getCode());
 
-        $this->provinceManager->persist($root);
+        $this->geoManager->persist($root);
 
         foreach ($provinces as $provinceName => $child) {
             $province = $this->addGeoName($root, $provinceName, GeoNameInterface::TYPE_PROVINCE);
@@ -234,17 +240,57 @@ class GeographicalFixture extends AbstractFixture
         }
     }
 
+    private function createThProvinces(CountryInterface $country)
+    {
+        echo "Downloading th geo data ...\r\n";
+        $data = json_decode(file_get_contents('https://raw.githubusercontent.com/earthchie/jquery.Thailand.js/master/jquery.Thailand.js/database/raw_database/database.json'));
+        echo "Download complete!\r\n";
+
+        /** @var GeoNameInterface $root */
+        $root = $this->geoFactory->createNew();
+        $root->setName($country->getName());
+        $root->setCode($country->getCode());
+
+        $this->geoManager->persist($root);
+        $this->geoManager->flush($root);
+
+        $provinces = $districts = $slugs = [];
+
+        foreach ($data as $i => $geo) {
+            if (!$province = $this->geoTranRepository->findOneBy(['slug' => $geo->province])) {
+                $province = $this->addGeoName($root, $geo->province, GeoNameInterface::TYPE_PROVINCE);
+                $country->addProvince($province);
+                $this->geoManager->flush();
+            } else {
+                $province = $province->getTranslatable();
+            }
+
+            if (!$district = $this->geoTranRepository->findOneBy(['slug' => sprintf('%s/%s', $geo->province, $geo->amphoe)])) {
+                $district = $this->addGeoName($province, $geo->amphoe, GeoNameInterface::TYPE_DISTRICT);
+                $this->geoManager->flush();
+            } else {
+                $district = $district->getTranslatable();
+            }
+
+            if (!$subDistrict = $this->geoTranRepository->findOneBy(['slug' => sprintf('%s/%s/%s/%s', $geo->province, $geo->amphoe, $geo->district, $geo->zipcode)])) {
+                $subDistrict = $this->addGeoName($district, $geo->district, GeoNameInterface::TYPE_SUB_DISTRICT);
+                $subDistrict->setPostcode($geo->zipcode);
+                $this->geoManager->flush();
+            }
+        }
+    }
+
     private function addGeoName(GeoNameInterface $root, $name, $type)
     {
         /** @var GeoNameInterface $geoName */
-        $geoName = $this->provinceFactory->createNew();
+        $geoName = $this->geoFactory->createNew();
 
         $geoName->setName($name);
         $geoName->setType($type);
 
         $root->addChild($geoName);
 
-        $this->provinceManager->persist($geoName);
+        $this->geoManager->persist($geoName);
 
         return $geoName;
     }
@@ -288,8 +334,9 @@ class GeographicalFixture extends AbstractFixture
                 $provinces = [];
 
                 foreach ($zoneOptions['provinces'] as $province) {
-                    $province = $this->geoNameRepository->findOneBy(['name' => $province]);
-                    $provinces[] = $province->getTranslatable()->getCode();
+                    if ($province = $this->geoTranRepository->findOneBy(['name' => $province])) {
+                        $provinces[] = $province->getTranslatable()->getCode();
+                    }
                 }
 
                 return $provinces;

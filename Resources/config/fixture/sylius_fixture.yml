@@ -1,5 +1,21 @@
 sylius_fixtures:
     suites:
+        default_geo:
+            listeners:
+                logger: ~
+            fixtures:
+                geographical:
+                    options:
+                        zones:
+                            TH-CENTRAL:
+                                name: "ภาคกลาง"
+                                provinces:
+                                    - "กรุงเทพมหานคร"
+                            TH-NORTHEAST:
+                                name: "อีสาน"
+                                provinces:
+                                    - "ขอนแก่น"
+                        provinces: ~
         geo:
             listeners:
                 logger: ~
