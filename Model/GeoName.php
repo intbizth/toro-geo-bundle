@@ -439,9 +439,19 @@ class GeoName implements GeoNameInterface
     }
 
     /**
+     * @deprecated use getGeoAddress
+     *
      * {@inheritdoc}
      */
     public function getAddressName()
+    {
+        return $this->getGeoAddress();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGeoAddress()
     {
         $names = array_map('trim', array_reverse(explode(', ', $this->getGeoName())));
         $postcode = null;

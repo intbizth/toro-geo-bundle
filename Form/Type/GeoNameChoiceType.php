@@ -36,6 +36,14 @@ final class GeoNameChoiceType extends AbstractType
             return;
         }
 
+        if ('addressName' === $options['choice_label']) {
+            return;
+        }
+
+        if ('geoAddress' === $options['choice_label']) {
+            return;
+        }
+
         /** @var ChoiceView $choice */
         foreach ($view->vars['choices'] as $choice) {
             $choice->label = str_repeat('— ', $choice->data->getLevel()).$choice->label;

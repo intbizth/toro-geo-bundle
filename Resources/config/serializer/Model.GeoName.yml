@@ -41,6 +41,8 @@ Toro\Bundle\GeoBundle\Model\GeoName:
             serialized_name: name
         getGeoName:
             serialized_name: geo_name
+        getGeoAddress:
+            serialized_name: geo_address
 #    relations:
 #        -   rel: self
 #            href:
