@@ -254,35 +254,32 @@ class GeographicalFixture extends AbstractFixture
         $this->geoManager->persist($root);
         $this->geoManager->flush($root);
 
-        $provinces = $districts = $slugs = [];
+        $provinces = $districts = $subDistricts = [];
 
         foreach ($data as $i => $geo) {
-            if (!$province = $this->geoTranRepository->findOneBy(['slug' => $geo->province])) {
-                $province = $this->addGeoName($root, $geo->province, GeoNameInterface::TYPE_PROVINCE);
+            if (!$province = @$provinces[$geo->province]) {
+                $province = $provinces[$geo->province] = $this->addGeoName($root, $geo->province, GeoNameInterface::TYPE_PROVINCE);
                 $country->addProvince($province);
-                $this->geoManager->flush();
-            } else {
-                $province = $province->getTranslatable();
             }
 
-            if (!$district = $this->geoTranRepository->findOneBy(['slug' => sprintf('%s/%s', $geo->province, $geo->amphoe)])) {
-                $district = $this->addGeoName($province, $geo->amphoe, GeoNameInterface::TYPE_DISTRICT);
-                $this->geoManager->flush();
-            } else {
-                $district = $district->getTranslatable();
+            $districtSlug = sprintf('%s/%s', $geo->province, $geo->amphoe);
+
+            if (!$district = @$districts[$districtSlug]) {
+                $district = $districts[$districtSlug] = $this->addGeoName($province, $geo->amphoe, GeoNameInterface::TYPE_DISTRICT);
             }
 
-            if (!$subDistrict = $this->geoTranRepository->findOneBy(['slug' => sprintf('%s/%s/%s/%s', $geo->province, $geo->amphoe, $geo->district, $geo->zipcode)])) {
-                $subDistrict = $this->addGeoName($district, $geo->district, GeoNameInterface::TYPE_SUB_DISTRICT);
+            $subDistrictSlug = sprintf('%s/%s/%s/%s', $geo->province, $geo->amphoe, $geo->district, $geo->zipcode);
+
+            if (!$subDistrict = @$subDistricts[$subDistrictSlug]) {
+                $subDistrict = $subDistricts[$subDistrictSlug] = $this->addGeoName($district, $geo->district, GeoNameInterface::TYPE_SUB_DISTRICT);
 
                 if ($geo->zipcode) {
                     $subDistrict->setPostcode($geo->zipcode);
                 }
-
-                $this->geoManager->flush();
             }
 
             if (0 === $i % 100) {
+                $this->geoManager->flush();
                 echo number_format(($i / count($data)) * 100) . "% ";
             }
         }
