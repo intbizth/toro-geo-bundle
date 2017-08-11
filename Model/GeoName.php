@@ -97,7 +97,7 @@ class GeoName implements GeoNameInterface
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         if ($this->code) {
             return $this->code;
@@ -113,7 +113,7 @@ class GeoName implements GeoNameInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }
