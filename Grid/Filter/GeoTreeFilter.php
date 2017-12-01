@@ -36,7 +36,7 @@ class GeoTreeFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(DataSourceInterface $dataSource, $name, $data, array $options)
+    public function apply(DataSourceInterface $dataSource, string $name, $data, array $options): void
     {
         if (empty($data)) {
             return;
@@ -60,11 +60,13 @@ class GeoTreeFilter implements FilterInterface
 
             if (is_string($data)) {
                 if (!$data = $this->repository->findOneByName($data)) {
-                    return ($this->multiStringFilter ?: $this->stringFilter)
+                    ($this->multiStringFilter ?: $this->stringFilter)
                         ->apply($dataSource, $name, ['value' => $data, 'type' => $type], array_replace_recursive([
                             'fields' => [$options['trans']]
                         ], $options))
                     ;
+
+                    return;
                 }
             }
 
