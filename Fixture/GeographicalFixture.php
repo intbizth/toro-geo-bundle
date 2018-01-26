@@ -80,7 +80,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function load(array $options)
+    public function load(array $options): void
     {
         $this->loadCountriesWithProvinces((array) $options['provinces']);
 
@@ -95,7 +95,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'geographical';
     }
