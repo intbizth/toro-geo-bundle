@@ -103,7 +103,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode)
+    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNodeBuilder = $optionsNode->children();
 
